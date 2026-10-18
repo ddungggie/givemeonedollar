@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>달러 투자 추적</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- 로그인 화면 -->
+<main id="login" class="narrow" hidden>
+  <h1>달러 투자 추적</h1>
+  <p class="lead">매수한 환율과 금액을 기록하고, 지금 환율 기준으로 얼마나 벌었는지 확인하세요.</p>
+  <button id="loginBtn" class="primary" type="button">Google 계정으로 로그인</button>
+  <div id="loginErr"></div>
+</main>
+
+<!-- 앱 화면 -->
+<main id="app" hidden>
+  <section class="hero">
+    <h1>달러 투자 평가손익</h1>
+    <div class="big" id="plBig">불러오는 중…</div>
+    <div class="sub" id="plSub"></div>
+  </section>
+
+  <div id="errBox"></div>
+  <dl class="stats" id="stats"></dl>
+
+  <h2>환율 추이</h2>
+  <div class="panel"><div class="chart-box"><canvas id="rateChart"></canvas></div></div>
+  <div class="hint">초록 점이 내가 매수한 시점이고, 점선은 평균 매수환율입니다. 선이 점선 위에 있으면 수익 구간입니다.</div>
+
+  <h2>매수별 수익률</h2>
+  <div class="panel"><div class="chart-box short"><canvas id="barChart"></canvas></div></div>
+
+  <h2>매수 내역 추가</h2>
+  <div class="panel">
+    <form id="addForm">
+      <div><label for="fDate">매수일</label><input type="date" id="fDate" required></div>
+      <div><label for="fRate">매수 환율 (원/$)</label><input type="number" id="fRate" step="0.01" min="0" inputmode="decimal" placeholder="1380.50" required></div>
+      <div><label for="fUsd">매수 금액 ($)</label><input type="number" id="fUsd" step="0.01" min="0" inputmode="decimal" placeholder="1000" required></div>
+      <div><label for="fMemo">메모 (선택)</label><input type="text" id="fMemo" maxlength="100" placeholder="예: 월급날 분할매수"></div>
+      <div><button class="primary" id="addBtn" type="submit">매수 추가</button></div>
+    </form>
+  </div>
+
+  <h2>매수 내역</h2>
+  <div class="panel table-wrap">
+    <table>
+      <thead><tr>
+        <th>매수일</th><th>매수환율</th><th>금액($)</th><th>매수원금</th><th>평가손익</th><th>수익률</th><th></th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+  <div class="foot">
+    <span id="updated"></span>
+    <button id="refreshBtn" type="button">시세 새로고침</button>
+    <span class="spacer"></span>
+    <span id="userName"></span>
+    <button id="logoutBtn" type="button">로그아웃</button>
+  </div>
+</main>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
